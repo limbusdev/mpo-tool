@@ -2,3 +2,5 @@ New help file coming soon ...
 
 
 Usage is very intuitive, try for yourself and remember to always backup your files first.
+
+ATTENTION: mpo fix does not work right now due to a change in exiftool, but will be fixed soon in 0.7.2
