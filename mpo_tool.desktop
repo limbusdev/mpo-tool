@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MPO Tool
+Comment=Convert MPO to JPS, L/R, Anaglyph
+Exec=mpo-tool.py
+Icon=share/mpo-tool/pixmaps/mpo_tool_icon.svg
+Path=
+Terminal=true
+StartupNotify=false

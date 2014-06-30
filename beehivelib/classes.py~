@@ -1,0 +1,48 @@
+import datetime
+
+class Vehicle:
+    """
+    Provides a simple container for vehicle-details
+
+    USAGE:
+        car1 = Vehicle()
+
+        or
+
+        car2 = Vehicle("ZI-DF-23")
+        to create a new instance and set the plates-value
+    """
+
+    def __init__(self, plates = ""):
+        # Vehicle-Details
+        self.brand = ""
+        self.model = ""
+        self.date_manufactured = datetime.date(2000, 1, 1)
+        self.date_bought = datetime.date(2000, 1, 1)
+        self.initialkms = 0
+        self.color = ""
+        self.plates = plates
+        self.owner = ""
+        self.company = ""
+        self.vehicletype = ""
+        self.fueltype = ""
+        self.engine = ""
+    
+    def get_age_days(self):
+        """
+        returns vehicle age in days
+        """
+        age = datetime.date.today() - self.date_manufactured
+        return age.days
+
+    def set_date_bought(self,year,month,day):
+        try:
+            self.date_bought.replace(year,month,day)
+        except TypeError:
+            print('ERROR: Wrong input.')
+
+    def set_date_manufactured(self,year,month,day):
+        try:
+            self.date_manufactured.replace(year,month,day)
+        except TypeError:
+            print('ERROR: Wrong input.')

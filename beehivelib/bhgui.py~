@@ -1,0 +1,167 @@
+#! /usr/bin/env python3.2
+
+"""
+BeeHive GUI Library
+
+This Library provides modules for GUIs like Dialogs, Special Windows and so on.
+"""
+
+# IMPORT
+    # GTK
+from gi.repository import Gtk
+    # BeeHiveLib
+import beehivelib
+import os
+
+from random import randint # TippsWindow
+
+class HelpWindow(object):
+    """
+    Opens a Help Window and displays given File with GTK Markup
+
+    USAGE:
+        app = beehivelibgui.HelpWindow()
+        app.run()
+
+        # optional:
+        app.configure(help_file_name = 'help.txt', window_title = 'Help')
+    """
+    def __init__(self):
+        """
+        Initialize Window
+        """
+        # INITIALIZE
+        # build dialog with Gtk.Builder()
+        self.dialog_builder = Gtk.Builder()
+        self.dialog_builder.add_from_file(
+            os.path.join(os.path.dirname(__file__), 'beehiveguilib_help.glade'))
+        self.dialog_builder.connect_signals(self)
+    
+        # import objects
+        self.window_help = self.dialog_builder.get_object('window_help')
+        self.label_helptext = self.dialog_builder.get_object('label_helptext')
+
+        # configure objects
+        self.help_file_name = 'help.txt'
+        self.window_title = 'Hilfe'
+
+    # RUN
+    def run(self):
+        # load from file
+        with open(self.help_file_name,'r') as helpfile:
+            helptext = helpfile.read()
+        self.label_helptext.set_markup(helptext)
+        del helptext
+
+        # set window title
+        self.window_help.set_title(self.window_title)
+
+        # open window
+        self.window_help.show_all()
+        Gtk.main()
+
+    # FUNCTIONS
+    def configure(self, help_file_name = 'help.txt', window_title = 'Hilfe'):
+        self.help_file_name = help_file_name
+        self.window_title = window_title
+                
+    # CALLBACKS
+    def on_window_help_delete_event(self, *args):
+        Gtk.main_quit()
+
+class TippsWindow(object):
+    """
+    Shows a window with a random tipp from a given tipps file.
+
+    USAGE:
+        app = TippsWindow()
+        app.set_tipps_file("tipps.txt")
+        app.run()
+
+    OPTIONAL:
+        bool_var = app.get_autostart()
+    """
+    def __init__(self):
+        """
+        Initialize Window
+        """
+        # INITIALIZE
+        # build dialog with Gtk.Builder()
+        self.dialog_builder = Gtk.Builder()
+        self.dialog_builder.add_from_file("beehiveguilib_tipps.glade")
+        self.dialog_builder.connect_signals(self)
+    
+        # import objects
+        self.window_main = self.dialog_builder.get_object('window_main')
+        self.checkbutton_start = self.dialog_builder.get_object('checkbutton_start')
+        self.label_tipp = self.dialog_builder.get_object('label_tipp')
+        self.label_tipp_count = self.dialog_builder.get_object('label_tipp_count')
+
+        # configure objects
+        self.tipps_file_name = 'tipps.txt'
+        self.autostart = True
+        self.filelength = 0
+        self.tipp_no = 1
+
+    # RUN
+    def run(self):
+        # get random tipp
+        self.get_first_tipp()
+        
+        # open window
+        self.window_main.show_all()
+        Gtk.main()
+
+    # METHODS
+    def set_tipps_file(self, tipps_file_name = 'tipps.txt'):
+        self.tipps_file_name = tipps_file_name
+
+    def get_autostart(self):
+        return self.autostart
+
+    def set_autostart(self, do_start):
+        """sets the togglebutton and its value to true/active or false/inactive"""
+        try:
+            self.autostart = do_start
+            self.checkbutton_start.set_active(do_start)
+        except TypeError:
+            print('Wrong input type for do_start')
+
+    def get_first_tipp(self):
+        try:
+            self.filelength = beehivelib.txtfile_length(self.tipps_file_name)
+            self.tipp_no = randint(1, self.filelength)
+            self.label_tipp.set_text(beehivelib.get_def_txtfile_line(self.tipps_file_name, self.tipp_no))
+            self.set_tipp_count()
+        except:
+            # no tipps-file found or no tipps in file
+            self.label_tipp.set_text("ERROR: No tipps-file found.")
+
+    def set_tipp_count(self):
+        self.label_tipp_count.set_text("({} von {})".format(self.tipp_no, self.filelength))
+                
+    # CALLBACKS
+    def on_window_main_delete_event(self, *args):
+        Gtk.main_quit()
+
+    def on_checkbutton_start_toggled(self, *args):
+        if self.checkbutton_start.get_active():
+            self.autostart = True
+        else:
+            self.autostart = False
+
+    def on_button_forward_clicked(self, *args):
+        if self.tipp_no < self.filelength:
+            self.tipp_no += 1
+        else:
+            self.tipp_no = 1
+        self.label_tipp.set_text(beehivelib.get_def_txtfile_line(self.tipps_file_name, self.tipp_no))
+        self.set_tipp_count()
+
+    def on_button_back_clicked(self, *args):
+        if self.tipp_no > 1:
+            self.tipp_no -= 1
+        else:
+            self.tipp_no = self.filelength
+        self.label_tipp.set_text(beehivelib.get_def_txtfile_line(self.tipps_file_name, self.tipp_no))
+        self.set_tipp_count()
