@@ -40,9 +40,11 @@ You will see the GUI and get progress information in your terminal.
 
 ## License
 
+```
 License: GPL 3.0
 Author: Georg Eckert
 Date: 2019-03-14
 Version: 0.7.1
+```
 
 Copyright Georg Eckert 2014
