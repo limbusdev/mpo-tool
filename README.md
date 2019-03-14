@@ -1,7 +1,7 @@
 MPO Tool
 ========
 
-![](./mpo_split.png)
+![](./camera.png)![](./mpo_split.png)![](./anaglyph.png)![](jps_cross.png)![](./jps_parallel.png)
 
 MPO Tool is a little piece of software for splitting and converting MPO 3D photos. It is written in python2.7 (because there is no Python Imaging Library for Python3 yet) and GTK+3 (via GObject-Introspection).
 
