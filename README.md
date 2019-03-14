@@ -1,7 +1,8 @@
-MPO Tool
-========
+# MPO Tool
 
 ![](./camera.png)
+
+## Introduction
 
 MPO Tool is a little piece of software for splitting and converting MPO 3D photos. It is written in python2.7 (because there is no Python Imaging Library for Python3 yet) and GTK+3 (via GObject-Introspection).
 
@@ -9,7 +10,7 @@ MPO Tool is a little piece of software for splitting and converting MPO 3D photo
 Use MPO Tool to convert MPO to JPS.
 
 
-# What can it do?
+## What can it do?
 
 + Split MPO files to seperate JPGs
 + Create an anaglphy red/cyan JPG from MPO
@@ -18,9 +19,9 @@ Use MPO Tool to convert MPO to JPS.
 
 ![](./mpo_split.png)![](./anaglyph.png)![](jps_cross.png)![](./jps_parallel.png)
 
-# Dependencies
+## Dependencies
 
-## Ubuntu/Debian:
+### Ubuntu/Debian:
 
 + gir1.2-gexiv2-0.4
 + libgexiv2-dev
